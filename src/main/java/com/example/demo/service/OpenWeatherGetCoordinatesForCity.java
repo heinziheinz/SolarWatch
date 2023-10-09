@@ -20,7 +20,6 @@ public class OpenWeatherGetCoordinatesForCity {
     }
 
     public OptionalGetLatLong getCoordinatesForCityName(String cityName) {
-        System.out.println("cityName = " + cityName);
         String url = String.format("https://api.openweathermap.org/geo/1.0/direct?q=%s&limit=1&appid=%s", cityName, API_KEY);
 
         List<OptionalGetLatLong> response = Arrays.asList(restTemplate.getForObject(url, OptionalGetLatLong[].class));

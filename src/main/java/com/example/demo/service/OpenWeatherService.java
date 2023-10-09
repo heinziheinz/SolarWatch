@@ -20,14 +20,9 @@ public class OpenWeatherService {
     }
 
     public CityName getCurrentWeatherForBudapest(long dt, String name) {
-        System.out.println("Inside: ");
-        System.out.println("long dt: " + dt);
-        System.out.println("name: " + name);
-//        https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&dt=%s
         String url = String.format("https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&dt=%s",name,API_KEY, dt);
 
         CityName response = restTemplate.getForObject(url, CityName.class);
-        System.out.println("response = " + response);
 
         assert response != null;
         return new CityName(

@@ -22,7 +22,6 @@ public class SunriseSunset {
         String url = String.format("https://api.sunrise-sunset.org/json?lat=%s&lng=%s",optionalGetLatLong.lat(), optionalGetLatLong.lon());
 
         SunUpSunDown response = restTemplate.getForObject(url, SunUpSunDown.class);
-        System.out.println("response = " + response);
 
         assert response != null;
         return new SunUpSunDown(
