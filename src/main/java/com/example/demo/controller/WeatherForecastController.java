@@ -1,17 +1,16 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.CityName;
-import com.example.demo.model.WeatherReport;
+import com.example.demo.model.OptionalGetLatLong;
+import com.example.demo.model.SunUpSunDown;
+import com.example.demo.service.OpenWeatherGetCoordinatesForCity;
 import com.example.demo.service.OpenWeatherService;
+import com.example.demo.service.SunriseSunset;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 @RestController
 public class WeatherForecastController {
@@ -21,9 +20,14 @@ public class WeatherForecastController {
     };
     private final OpenWeatherService openWeatherService;
     private final Random random = new Random();
+    private final OpenWeatherGetCoordinatesForCity openWeatherGetCoordinatesForCity;
 
-    public WeatherForecastController(OpenWeatherService openWeatherService) {
+    private final SunriseSunset sunriseSunset;
+
+    public WeatherForecastController(OpenWeatherService openWeatherService, OpenWeatherGetCoordinatesForCity openWeatherGetCoordinatesForCity, SunriseSunset sunriseSunset) {
         this.openWeatherService = openWeatherService;
+        this.openWeatherGetCoordinatesForCity = openWeatherGetCoordinatesForCity;
+        this.sunriseSunset = sunriseSunset;
     }
 
 
@@ -33,6 +37,11 @@ public class WeatherForecastController {
         System.out.println("City = " + city);
         return openWeatherService.getCurrentWeatherForBudapest(timestamp, city);
     }
-//    @GetMapping("/optional-get-sunrise-sunset")
-//    p
+
+    @GetMapping("/optional-get-sunrise-sunset")
+    public SunUpSunDown getOptionalSunriseOrSunset(@RequestParam String cityName) {
+        System.out.println("cityName = " + cityName);
+        OptionalGetLatLong optionalGetLatLong =  openWeatherGetCoordinatesForCity.getCoordinatesForCityName(cityName);
+        return sunriseSunset.getSunsetUndSunrise(optionalGetLatLong);
+    }
 }
